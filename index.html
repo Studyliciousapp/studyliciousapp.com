@@ -1,0 +1,459 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Studylicious — Exclusive student deals in Leuven</title>
+<meta name="description" content="Studylicious is the app for students who love good food and great deals. Currently live in Leuven, with more cities coming soon.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@500;600;700;800&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --orange:#C84B00;
+    --orange-tint:#FFF0E8;
+    --navy:#1A1A2E;
+    --gray-light:#F4F4F8;
+    --yellow:#FFD60A;
+    --bg:#FAFAFA;
+    --text:#14181B;
+    --subtext:#878787;
+    --line:#E8E8E8;
+    --green:#16a34a;
+  }
+  *{box-sizing:border-box;margin:0;padding:0;}
+  html{scroll-behavior:smooth;}
+  body{
+    font-family:'Inter',sans-serif;
+    color:var(--text);
+    background:var(--bg);
+    line-height:1.6;
+    -webkit-font-smoothing:antialiased;
+  }
+  h1,h2,h3,.btn,.tagline,.step-num{font-family:'Poppins',sans-serif;}
+  a{color:inherit;}
+  img,svg{display:block;max-width:100%;}
+  .wrap{max-width:1120px;margin:0 auto;padding:0 24px;}
+
+  /* ---------- NAV ---------- */
+  .nav{
+    position:sticky;top:0;z-index:20;
+    background:var(--bg);
+    border-bottom:1px solid var(--line);
+  }
+  .nav .wrap{
+    display:flex;align-items:center;justify-content:space-between;
+    height:72px;
+  }
+  .brand{display:flex;align-items:center;gap:10px;font-weight:700;font-size:18px;}
+  .brand .mark{
+    width:34px;height:34px;border-radius:10px;
+    background:var(--orange);color:#fff;
+    display:flex;align-items:center;justify-content:center;
+    font-weight:800;font-size:18px;
+  }
+  .nav-links{display:flex;align-items:center;gap:22px;}
+  .nav-links > a:not(.nav-cta){
+    font-size:14.5px;font-weight:500;color:var(--text);text-decoration:none;
+  }
+  .nav-links > a:not(.nav-cta):hover{color:var(--orange);}
+  .nav-cta{
+    font-weight:600;font-size:14px;
+    padding:10px 18px;border-radius:10px;
+    background:var(--navy);color:#fff;
+    text-decoration:none;
+  }
+
+  /* ---------- HERO ---------- */
+  .hero{
+    background:var(--navy);
+    color:#fff;
+    position:relative;
+    overflow:hidden;
+    padding:96px 0 110px;
+  }
+  .hero-watermark{
+    position:absolute;
+    right:-60px;top:-120px;
+    font-size:640px;
+    font-weight:800;
+    color:rgba(255,255,255,0.045);
+    line-height:1;
+    user-select:none;
+    pointer-events:none;
+  }
+  .hero .wrap{position:relative;z-index:1;}
+  .eyebrow-chip{
+    display:inline-flex;align-items:center;gap:8px;
+    background:rgba(255,214,10,0.12);
+    border:1px solid rgba(255,214,10,0.35);
+    color:var(--yellow);
+    padding:7px 14px;border-radius:100px;
+    font-size:13px;font-weight:600;
+    margin-bottom:28px;
+  }
+  .eyebrow-chip .dot{
+    width:7px;height:7px;border-radius:50%;
+    background:var(--yellow);
+    animation:pulse 1.8s ease-in-out infinite;
+  }
+  @keyframes pulse{
+    0%,100%{opacity:1;}
+    50%{opacity:0.35;}
+  }
+  .hero h1{
+    font-size:clamp(36px,5.4vw,58px);
+    font-weight:700;
+    line-height:1.08;
+    max-width:680px;
+    letter-spacing:-0.01em;
+  }
+  .hero h1 span{color:var(--orange);}
+  .hero p.lede{
+    margin-top:22px;
+    font-size:19px;
+    color:rgba(255,255,255,0.72);
+    max-width:520px;
+  }
+  .hero-actions{
+    margin-top:40px;
+    display:flex;flex-wrap:wrap;gap:14px;
+  }
+  .store-btn{
+    display:flex;align-items:center;gap:12px;
+    background:rgba(255,255,255,0.06);
+    border:1px solid rgba(255,255,255,0.16);
+    border-radius:12px;
+    padding:12px 20px;
+    min-width:210px;
+    text-decoration:none;
+    color:#fff;
+    transition:border-color .15s ease, background .15s ease;
+  }
+  .store-btn:hover{border-color:rgba(255,255,255,0.32);background:rgba(255,255,255,0.09);}
+  .store-btn .glyph{
+    width:34px;height:34px;flex:none;
+    display:flex;align-items:center;justify-content:center;
+  }
+  .store-btn .store-text{display:flex;flex-direction:column;line-height:1.25;}
+  .store-btn .store-small{font-size:11px;color:rgba(255,255,255,0.55);}
+  .store-btn .store-big{font-size:15px;font-weight:600;}
+  .store-btn.disabled{cursor:default;}
+
+  .trial-card{
+    margin-top:28px;
+    display:inline-flex;align-items:center;flex-wrap:wrap;gap:10px 14px;
+    background:rgba(255,214,10,0.08);
+    border:1px solid rgba(255,214,10,0.32);
+    border-radius:14px;
+    padding:14px 20px;
+    font-size:15px;
+  }
+  .trial-icon{font-size:18px;line-height:1;}
+  .trial-text{color:rgba(255,255,255,0.85);}
+  .trial-text strong{color:#fff;}
+  .trial-code{
+    font-family:'Poppins',sans-serif;
+    font-weight:700;
+    letter-spacing:0.04em;
+    background:rgba(255,214,10,0.18);
+    color:var(--yellow);
+    padding:5px 12px;
+    border-radius:8px;
+    font-size:14px;
+  }
+
+  /* ---------- HOW IT WORKS ---------- */
+  .how{padding:100px 0 90px;}
+  .section-head{max-width:560px;margin-bottom:56px;}
+  .section-head h2{font-size:clamp(28px,3.4vw,36px);font-weight:700;letter-spacing:-0.01em;}
+  .section-head p{margin-top:14px;color:var(--subtext);font-size:17px;}
+
+  .steps{
+    display:grid;
+    grid-template-columns:repeat(4,1fr);
+    gap:0;
+    border-top:1px solid var(--line);
+    border-bottom:1px solid var(--line);
+  }
+  .step{
+    padding:34px 26px 30px 0;
+    border-right:1px solid var(--line);
+  }
+  .step:last-child{border-right:none;padding-right:0;}
+  .step-num{
+    font-size:14px;font-weight:700;color:var(--orange);
+    margin-bottom:16px;
+  }
+  .step h3{font-size:18px;font-weight:600;margin-bottom:8px;}
+  .step p{font-size:14.5px;color:var(--subtext);}
+
+  /* ---------- PARTNERS ---------- */
+  .partners{padding:90px 0;background:var(--gray-light);}
+  .partners .section-head p{color:#5b5b63;}
+  .partner-row{
+    display:flex;flex-wrap:wrap;gap:12px;
+    margin-top:8px;
+  }
+  .pill{
+    background:#fff;
+    border:1px solid var(--line);
+    border-radius:100px;
+    padding:12px 22px;
+    font-weight:600;
+    font-size:15px;
+  }
+  .pill .cat{
+    font-weight:400;color:var(--subtext);
+    font-size:13px;margin-left:6px;
+  }
+  .pill-outline{
+    background:transparent;
+    border:1px dashed var(--subtext);
+    color:var(--subtext);
+    font-weight:500;
+  }
+  .partners-note{
+    margin-top:28px;
+    font-size:14.5px;
+    color:#5b5b63;
+    max-width:560px;
+  }
+
+  /* ---------- FOUNDER NOTE ---------- */
+  .founder{padding:100px 0;}
+  .founder .wrap{
+    display:grid;
+    grid-template-columns:1fr 1.4fr;
+    gap:64px;
+    align-items:start;
+  }
+  .founder-badge{
+    width:56px;height:56px;border-radius:14px;
+    background:var(--orange-tint);
+    color:var(--orange);
+    display:flex;align-items:center;justify-content:center;
+    font-weight:800;font-size:22px;
+    margin-bottom:20px;
+  }
+  .founder h2{font-size:26px;font-weight:700;margin-bottom:6px;}
+  .founder .role{color:var(--subtext);font-size:14.5px;}
+  .founder blockquote{
+    font-size:20px;
+    line-height:1.55;
+    color:var(--text);
+    font-weight:500;
+  }
+  .founder blockquote p+p{margin-top:18px;}
+
+  /* ---------- NOTIFY / CTA STRIP ---------- */
+  .cta-strip{
+    background:var(--navy);
+    color:#fff;
+    padding:70px 0;
+  }
+  .cta-strip .wrap{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    gap:32px;
+    flex-wrap:wrap;
+  }
+  .cta-strip h2{font-size:26px;font-weight:700;max-width:420px;}
+  .cta-strip p{color:rgba(255,255,255,0.65);margin-top:8px;font-size:15px;}
+  .cta-strip .store-actions{display:flex;gap:14px;flex-wrap:wrap;}
+
+  /* ---------- FOOTER ---------- */
+  footer{padding:44px 0;border-top:1px solid var(--line);}
+  footer .wrap{
+    display:flex;justify-content:space-between;align-items:center;
+    flex-wrap:wrap;gap:16px;
+  }
+  footer .foot-brand{display:flex;align-items:center;gap:10px;font-weight:600;font-size:14px;color:var(--subtext);}
+  footer .foot-links{display:flex;gap:22px;flex-wrap:wrap;}
+  footer .foot-links a{
+    font-size:13.5px;color:var(--subtext);text-decoration:none;
+  }
+  footer .foot-links a:hover{color:var(--text);}
+
+  @media (max-width:860px){
+    .steps{grid-template-columns:1fr 1fr;}
+    .step{border-right:1px solid var(--line);}
+    .step:nth-child(2n){border-right:none;}
+    .step:nth-child(n+3){border-top:1px solid var(--line);padding-top:30px;}
+    .founder .wrap{grid-template-columns:1fr;gap:28px;}
+    .hero-watermark{display:none;}
+  }
+  @media (max-width:560px){
+    .steps{grid-template-columns:1fr;}
+    .step{border-right:none;padding-right:0;}
+    .step:not(:first-child){border-top:1px solid var(--line);padding-top:26px;}
+    .hero{padding:64px 0 80px;}
+    .hero-actions{flex-direction:column;}
+    .store-btn{min-width:0;}
+    .cta-strip .wrap{flex-direction:column;align-items:flex-start;}
+    .nav-links{gap:14px;}
+    .nav-links > a:not(.nav-cta){display:none;}
+  }
+</style>
+</head>
+<body>
+
+  <nav class="nav">
+    <div class="wrap">
+      <div class="brand">
+        <span class="mark">S</span>
+        Studylicious
+      </div>
+      <div class="nav-links">
+        <a href="about.html">About us</a>
+        <a class="nav-cta" href="#notify">Get notified</a>
+      </div>
+    </div>
+  </nav>
+
+  <header class="hero">
+    <div class="hero-watermark">S</div>
+    <div class="wrap">
+      <span class="eyebrow-chip"><span class="dot"></span> Launching this week</span>
+      <h1>Delicious deals for students.</h1>
+      <p class="lede">With real savings on every deal. Book a deal in the app, show up, and pay less at the restaurants, bars and cafés students in Leuven already love.</p>
+
+      <div class="trial-card">
+        <span class="trial-icon">🎓</span>
+        <span class="trial-text">New here? Get <strong>3 months free</strong> with the code</span>
+        <span class="trial-code">STUDYLICIOUS</span>
+      </div>
+
+      <div class="hero-actions">
+        <a class="store-btn disabled" id="ios-cta" aria-disabled="true">
+          <span class="glyph">
+            <svg width="28" height="28" viewBox="0 0 24 24" fill="none"><path d="M16.7 12.9c0-2.7 2.2-4 2.3-4.1-1.3-1.8-3.2-2.1-3.9-2.1-1.7-.2-3.2 1-4.1 1-.8 0-2.1-1-3.5-1-1.8 0-3.5 1.1-4.4 2.7-1.9 3.2-.5 8 1.4 10.6.9 1.3 2 2.8 3.4 2.7 1.4-.1 1.9-.9 3.6-.9 1.7 0 2.1.9 3.6.8 1.5 0 2.4-1.3 3.3-2.6.7-1 1.2-2 1.6-3.1-2-1-3.3-3-3.3-4.9v-.1Z" fill="#fff"/><path d="M14.3 5.1c.7-.9 1.2-2.1 1.1-3.4-1.1.1-2.4.7-3.1 1.6-.7.8-1.3 2.1-1.1 3.3 1.2.1 2.4-.6 3.1-1.5Z" fill="#fff"/></svg>
+          </span>
+          <span class="store-text">
+            <span class="store-small">Coming soon to the</span>
+            <span class="store-big">App Store</span>
+          </span>
+        </a>
+        <a class="store-btn disabled" id="android-cta" aria-disabled="true">
+          <span class="glyph">
+            <svg width="26" height="26" viewBox="0 0 24 24" fill="none"><path d="M3.6 3.2 13.9 12 3.6 20.8c-.3-.2-.5-.5-.5-.9V4.1c0-.4.2-.7.5-.9Z" fill="#fff"/><path d="M16.7 9.2l-2.6-1.5-3.6 3.6 3.6 3.6 2.6-1.5c1-.6 1-2 0-2.6Z" fill="#fff"/><path d="M14.1 7.7 4.6 2.9c.2 0 .5 0 .7.1l9.9 5.7-1.1 1Z" fill="#fff"/><path d="M14.1 16.3 4.6 21.1c.2 0 .5 0 .7-.1l9.9-5.7-1.1-1Z" fill="#fff"/></svg>
+          </span>
+          <span class="store-text">
+            <span class="store-small">Coming soon to</span>
+            <span class="store-big">Google Play</span>
+          </span>
+        </a>
+      </div>
+    </div>
+  </header>
+
+  <section class="how">
+    <div class="wrap">
+      <div class="section-head">
+        <h2>How it works</h2>
+        <p>Four taps between you and a cheaper night out.</p>
+      </div>
+      <div class="steps">
+        <div class="step">
+          <div class="step-num">01</div>
+          <h3>Search</h3>
+          <p>Explore student-friendly spots on an interactive map of Leuven.</p>
+        </div>
+        <div class="step">
+          <div class="step-num">02</div>
+          <h3>Book</h3>
+          <p>Reserve your deal in a few taps, no calling ahead.</p>
+        </div>
+        <div class="step">
+          <div class="step-num">03</div>
+          <h3>Show up</h3>
+          <p>Show your booked deal before you order — that's it.</p>
+        </div>
+        <div class="step">
+          <div class="step-num">04</div>
+          <h3>Enjoy</h3>
+          <p>Pay the deal price, just like a normal order.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="partners">
+    <div class="wrap">
+      <div class="section-head">
+        <h2>Already live in Leuven</h2>
+        <p>Studylicious deals are active right now at these spots — more join every week.</p>
+      </div>
+      <div class="partner-row">
+        <span class="pill">Savoury<span class="cat">Japanese</span></span>
+        <span class="pill">Fatayer<span class="cat">Syrian</span></span>
+        <span class="pill">Tortilla & Co<span class="cat">Mexican</span></span>
+        <span class="pill">Pangaea<span class="cat">Café</span></span>
+        <span class="pill pill-outline">+ more partners coming soon</span>
+      </div>
+      <p class="partners-note">Run a restaurant, bar or café near a university? Partnering costs nothing — you only gain new student customers. Reach out at <a href="mailto:info@studyliciousapp.com">info@studyliciousapp.com</a>.</p>
+    </div>
+  </section>
+
+  <section class="founder">
+    <div class="wrap">
+      <div>
+        <div class="founder-badge">S</div>
+        <h2>Built by a student, for students</h2>
+        <p class="role">Luca Ecker, founder</p>
+      </div>
+      <blockquote>
+        <p>I studied in Leuven myself, and out of that experience I built Studylicious — because eating out on a student budget shouldn't mean skipping the places you actually want to go.</p>
+        <p>Every deal is real, every partner keeps every cent of what students pay them, and I built it because I wanted it to exist for myself first.</p>
+      </blockquote>
+    </div>
+  </section>
+
+  <section class="cta-strip" id="notify">
+    <div class="wrap">
+      <div>
+        <h2>We're launching this week.</h2>
+        <p>Check back here for the direct download link, or find us at your campus welcome days.</p>
+      </div>
+      <div class="store-actions">
+        <a class="store-btn disabled" aria-disabled="true">
+          <span class="glyph">
+            <svg width="28" height="28" viewBox="0 0 24 24" fill="none"><path d="M16.7 12.9c0-2.7 2.2-4 2.3-4.1-1.3-1.8-3.2-2.1-3.9-2.1-1.7-.2-3.2 1-4.1 1-.8 0-2.1-1-3.5-1-1.8 0-3.5 1.1-4.4 2.7-1.9 3.2-.5 8 1.4 10.6.9 1.3 2 2.8 3.4 2.7 1.4-.1 1.9-.9 3.6-.9 1.7 0 2.1.9 3.6.8 1.5 0 2.4-1.3 3.3-2.6.7-1 1.2-2 1.6-3.1-2-1-3.3-3-3.3-4.9v-.1Z" fill="#fff"/><path d="M14.3 5.1c.7-.9 1.2-2.1 1.1-3.4-1.1.1-2.4.7-3.1 1.6-.7.8-1.3 2.1-1.1 3.3 1.2.1 2.4-.6 3.1-1.5Z" fill="#fff"/></svg>
+          </span>
+          <span class="store-text">
+            <span class="store-small">Coming soon to the</span>
+            <span class="store-big">App Store</span>
+          </span>
+        </a>
+        <a class="store-btn disabled" aria-disabled="true">
+          <span class="glyph">
+            <svg width="26" height="26" viewBox="0 0 24 24" fill="none"><path d="M3.6 3.2 13.9 12 3.6 20.8c-.3-.2-.5-.5-.5-.9V4.1c0-.4.2-.7.5-.9Z" fill="#fff"/><path d="M16.7 9.2l-2.6-1.5-3.6 3.6 3.6 3.6 2.6-1.5c1-.6 1-2 0-2.6Z" fill="#fff"/><path d="M14.1 7.7 4.6 2.9c.2 0 .5 0 .7.1l9.9 5.7-1.1 1Z" fill="#fff"/><path d="M14.1 16.3 4.6 21.1c.2 0 .5 0 .7-.1l9.9-5.7-1.1-1Z" fill="#fff"/></svg>
+          </span>
+          <span class="store-text">
+            <span class="store-small">Coming soon to</span>
+            <span class="store-big">Google Play</span>
+          </span>
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <footer>
+    <div class="wrap">
+      <div class="foot-brand">
+        <span class="mark" style="width:26px;height:26px;font-size:13px;">S</span>
+        © 2026 Studylicious
+      </div>
+      <div class="foot-links">
+        <a href="privacy.html">Privacy Policy</a>
+        <a href="terms.html">Terms & Conditions</a>
+        <a href="impressum.html">Impressum</a>
+        <a href="account-deletion.html">Delete Account</a>
+        <a href="mailto:info@studyliciousapp.com">Contact</a>
+      </div>
+    </div>
+  </footer>
+
+</body>
+</html>
