@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Studylicious — Email Verification</title>
+<style>
+  :root {
+    --orange: #C84B00;
+    --navy: #1A1A2E;
+    --ivory: #FAF7F1;
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+    background: var(--ivory);
+    color: var(--navy);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 100vh;
+    padding: 24px;
+  }
+  .card {
+    background: #fff;
+    border-radius: 16px;
+    padding: 40px 32px;
+    max-width: 420px;
+    width: 100%;
+    text-align: center;
+    box-shadow: 0 4px 24px rgba(0,0,0,0.06);
+  }
+  .icon {
+    width: 64px;
+    height: 64px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto 20px;
+    font-size: 32px;
+  }
+  .icon.success { background: #E6F4EA; color: #1E7E34; }
+  .icon.info { background: #FFF4E5; color: var(--orange); }
+  .icon.error { background: #FDE8E8; color: #C0392B; }
+  h1 {
+    font-size: 22px;
+    margin: 0 0 12px;
+  }
+  p {
+    font-size: 15px;
+    line-height: 1.5;
+    color: #555;
+    margin: 0 0 8px;
+  }
+  .logo {
+    font-weight: 800;
+    color: var(--orange);
+    letter-spacing: -0.5px;
+    margin-bottom: 24px;
+    font-size: 18px;
+  }
+  #loading { display: block; }
+  #result { display: none; }
+</style>
+</head>
+<body>
+
+<div class="card">
+  <div class="logo">Studylicious</div>
+
+  <div id="loading">
+    <div class="icon info">⏳</div>
+    <h1>Verifying your email…</h1>
+    <p>One moment please.</p>
+  </div>
+
+  <div id="result"></div>
+</div>
+
+<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-auth-compat.js"></script>
+<script>
+  const firebaseConfig = {
+    apiKey: "AIzaSyBW0KpFDGeLj649_a9_WrHdYWiq_29Ycfg",
+    authDomain: "studylicious-f28cc.firebaseapp.com",
+    projectId: "studylicious-f28cc",
+    storageBucket: "studylicious-f28cc.firebasestorage.app",
+    messagingSenderId: "703317155953",
+    appId: "1:703317155953:web:8dd7548ac06d0b29147bd0"
+  };
+  firebase.initializeApp(firebaseConfig);
+  const auth = firebase.auth();
+
+  const params = new URLSearchParams(window.location.search);
+  const mode = params.get('mode');
+  const oobCode = params.get('oobCode');
+
+  const loadingEl = document.getElementById('loading');
+  const resultEl = document.getElementById('result');
+
+  function showResult(iconClass, icon, title, message) {
+    loadingEl.style.display = 'none';
+    resultEl.style.display = 'block';
+    resultEl.innerHTML = `
+      <div class="icon ${iconClass}">${icon}</div>
+      <h1>${title}</h1>
+      <p>${message}</p>
+    `;
+  }
+
+  if (!oobCode) {
+    showResult('error', '⚠️', 'Something went wrong', 'This link is missing some information. Please try requesting a new verification email from the app.');
+  } else if (mode === 'verifyEmail') {
+    auth.applyActionCode(oobCode).then(() => {
+      showResult('success', '✓', 'Email verified!', 'You can now go back to the Studylicious app and continue.');
+    }).catch((error) => {
+      // The code was already used before the student's own click — almost
+      // always because their email provider (e.g. Outlook Safe Links)
+      // opened the link automatically as a security check. In that case
+      // the email is already verified, so we show the exact same success
+      // message as a fresh, successful verification.
+      if (error.code === 'auth/invalid-action-code') {
+        showResult('success', '✓', 'Email verified!', 'You can now go back to the Studylicious app and continue.');
+      } else if (error.code === 'auth/expired-action-code') {
+        showResult('error', '⚠️', 'This link has expired', 'Please go back to the app and request a new verification email.');
+      } else {
+        showResult('error', '⚠️', 'Something went wrong', 'Please go back to the app and request a new verification email.');
+      }
+    });
+  } else if (mode === 'resetPassword') {
+    // If this page ever receives a password reset link, send it to
+    // Firebase's own handler which has the password-entry form.
+    window.location.href = `https://studylicious-f28cc.firebaseapp.com/__/auth/action?${params.toString()}`;
+  } else {
+    showResult('error', '⚠️', 'Unrecognized link', 'Please go back to the app and try again.');
+  }
+</script>
+
+</body>
+</html>
